@@ -1,0 +1,6 @@
+{
+  "name": "Resume Maker",
+  "description": "Create a professional, ATS-friendly resume in minutes with Resume Maker. 100% free online CV builder with modern templates, AI suggestions, and instant PDF download — no signup required!",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

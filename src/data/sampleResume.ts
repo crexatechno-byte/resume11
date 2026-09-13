@@ -1,0 +1,158 @@
+import { ResumeData } from "../types";
+
+export const initialSampleResume: ResumeData = {
+  id: "resume-default-01",
+  title: "Alex Morgan — Senior Software Engineer",
+  templateId: "modern-clean",
+  updatedAt: new Date().toISOString(),
+  isFavorite: true,
+  personal: {
+    fullName: "Alex Morgan",
+    jobTitle: "Senior Full-Stack Engineer",
+    email: "alex.morgan@email.com",
+    phone: "+1 (555) 234-5678",
+    location: "San Francisco, CA (Open to Remote)",
+    website: "https://alexmorgan.dev",
+    linkedin: "linkedin.com/in/alexmorgan-dev",
+    github: "github.com/alexmorgan",
+    profilePhoto: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+    summary:
+      "Results-oriented Senior Software Engineer with 6+ years of experience architecting resilient distributed web applications and high-throughput microservices. Proven expertise in React, TypeScript, Node.js, and cloud systems, delivering 30%+ performance enhancements and leading cross-functional teams from ideation to launch.",
+  },
+  experiences: [
+    {
+      id: "exp-1",
+      jobTitle: "Senior Full-Stack Engineer",
+      company: "Apex Cloud Technologies",
+      location: "San Francisco, CA",
+      startDate: "2023-01",
+      endDate: "",
+      isCurrent: true,
+      description:
+        "• Spearheaded migration of legacy monolith to modern Next.js/Node microservices architecture, reducing page load latency by 42% for 1.2M monthly active users.\n• Architected real-time analytics pipeline processing 50k events/sec using Kafka and Redis, achieving 99.99% uptime.\n• Mentored 6 mid-level engineers in clean code practices, TypeScript design patterns, and automated CI/CD deployment pipelines.",
+    },
+    {
+      id: "exp-2",
+      jobTitle: "Full-Stack Software Engineer",
+      company: "Nexus Labs",
+      location: "Seattle, WA",
+      startDate: "2020-06",
+      endDate: "2022-12",
+      isCurrent: false,
+      description:
+        "• Developed and shipped 14 core product features across web and mobile web platforms using React, GraphQL, and PostgreSQL.\n• Championed end-to-end automated testing adoption with Vitest and Playwright, reducing regression bug escape rate by 35%.\n• Collaborated with design and product managers to redesign core user onboarding flow, boosting day-30 user retention by 18%.",
+    },
+    {
+      id: "exp-3",
+      jobTitle: "Associate Frontend Developer",
+      company: "Orbit Creative Studio",
+      location: "San Jose, CA",
+      startDate: "2018-09",
+      endDate: "2020-05",
+      isCurrent: false,
+      description:
+        "• Built interactive, accessible SaaS dashboards and design system component libraries adhering strictly to WCAG AA guidelines.\n• Optimized bundle size by 28% through dynamic code-splitting and asset compression strategies.",
+    },
+  ],
+  educations: [
+    {
+      id: "edu-1",
+      degree: "B.S. in Computer Science & Engineering",
+      institution: "University of California, Berkeley",
+      location: "Berkeley, CA",
+      startDate: "2014-08",
+      endDate: "2018-05",
+      gpa: "3.85 / 4.0",
+      description: "Dean's Honors List (4 terms). Focus on Distributed Systems, Algorithms, and Software Engineering.",
+    },
+  ],
+  skills: [
+    { id: "sk-1", name: "TypeScript", level: "Expert" },
+    { id: "sk-2", name: "React", level: "Expert" },
+    { id: "sk-3", name: "Node.js", level: "Advanced" },
+    { id: "sk-4", name: "Next.js", level: "Advanced" },
+    { id: "sk-5", name: "PostgreSQL", level: "Advanced" },
+    { id: "sk-6", name: "Tailwind CSS", level: "Expert" },
+    { id: "sk-7", name: "Docker & Kubernetes", level: "Intermediate" },
+    { id: "sk-8", name: "AWS Cloud", level: "Advanced" },
+    { id: "sk-9", name: "REST & GraphQL APIs", level: "Expert" },
+    { id: "sk-10", name: "CI/CD & Git", level: "Advanced" },
+  ],
+  projects: [
+    {
+      id: "proj-1",
+      name: "Pulse — High Velocity API Monitor",
+      role: "Creator & Lead Architect",
+      technologies: "Go, React, TypeScript, InfluxDB",
+      url: "https://github.com/alexmorgan/pulse-monitor",
+      description: "Engineered open-source real-time uptime monitoring service with alerting channels used by 2,000+ developers.",
+    },
+    {
+      id: "proj-2",
+      name: "FastFlow UI Component Kit",
+      role: "Maintainer",
+      technologies: "React, Tailwind, Storybook",
+      url: "https://github.com/alexmorgan/fastflow-ui",
+      description: "Designed accessible, composable UI primitives with zero external runtime dependencies. 850+ GitHub stars.",
+    },
+  ],
+  certifications: [
+    {
+      id: "cert-1",
+      name: "AWS Certified Solutions Architect — Associate",
+      issuer: "Amazon Web Services",
+      issueDate: "2023-04",
+      expiryDate: "2026-04",
+      credentialId: "AWS-7894210",
+      url: "https://aws.amazon.com/verification",
+    },
+  ],
+  languages: [
+    { id: "lang-1", language: "English", proficiency: "Native" },
+    { id: "lang-2", language: "Spanish", proficiency: "Conversational" },
+  ],
+  awards: [
+    {
+      id: "award-1",
+      title: "Innovator of the Year",
+      issuer: "Apex Cloud Technologies",
+      date: "2024",
+      description: "Recognized for architecting real-time streaming pipeline reducing cloud infrastructure costs by $120k annually.",
+    },
+  ],
+  interests: ["Distributed Systems", "Open Source Contributing", "Marathon Running", "Analog Photography"],
+  references: [
+    {
+      id: "ref-1",
+      name: "Sarah Jenkins",
+      position: "VP of Engineering",
+      company: "Apex Cloud Technologies",
+      email: "sarah.j@apexcloud.com",
+      phone: "+1 (555) 987-6543",
+    },
+  ],
+  customization: {
+    font: "Inter",
+    fontSize: "base",
+    headingSize: "base",
+    lineSpacing: "normal",
+    primaryColor: "#2563EB",
+    layout: "single-column",
+    showPhoto: true,
+    sectionOrder: [
+      "personal",
+      "summary",
+      "experience",
+      "education",
+      "skills",
+      "projects",
+      "certifications",
+      "languages",
+      "awards",
+      "interests",
+      "references",
+    ],
+  },
+};
+
+export const sampleResumeData = initialSampleResume;
