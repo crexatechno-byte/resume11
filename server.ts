@@ -312,6 +312,23 @@ ${candidateName}`;
   }
 });
 
+// Google Search Console HTML verification route (handles all verification filenames)
+app.get("/google9952c1d0f1a31dfc.html", (_req, res) => {
+  res.setHeader("Content-Type", "text/html; charset=utf-8");
+  res.status(200).send("google-site-verification: google9952c1d0f1a31dfc.html");
+});
+
+app.get("/googley_Td_oqB4hSIvk3uOGHuHZKYyrhceTIPlZb5TrnQK5g.html", (_req, res) => {
+  res.setHeader("Content-Type", "text/html; charset=utf-8");
+  res.status(200).send("google-site-verification: googley_Td_oqB4hSIvk3uOGHuHZKYyrhceTIPlZb5TrnQK5g.html");
+});
+
+app.get(/^\/google([a-zA-Z0-9_-]+)\.html$/, (req, res) => {
+  const code = req.params[0];
+  res.setHeader("Content-Type", "text/html; charset=utf-8");
+  res.status(200).send(`google-site-verification: google${code}.html`);
+});
+
 // Vite middleware setup
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
