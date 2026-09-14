@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { ActivePage, ResumeData, TemplateDefinition } from "./types";
 import { sampleResumeData } from "./data/sampleResume";
 import { TEMPLATES } from "./data/templates";
@@ -17,10 +17,38 @@ import { FaqPage } from "./pages/FaqPage";
 import { ContactPage } from "./pages/ContactPage";
 import { SupportUsPage } from "./pages/SupportUsPage";
 import { PrivacyPolicyPage, TermsPage } from "./pages/LegalPages";
+import { triggerSmartLinkOnButtonClick } from "./config/ads";
 import { X, ArrowRight } from "lucide-react";
 
 const STORAGE_KEY_RESUMES = "resume_maker_resumes_v1";
 const STORAGE_KEY_ACTIVE_ID = "resume_maker_active_id_v1";
+
+const VALID_PAGES: ActivePage[] = [
+  "landing",
+  "templates",
+  "builder",
+  "preview",
+  "my-resumes",
+  "settings",
+  "ai-assistant",
+  "cover-letter",
+  "help",
+  "contact",
+  "privacy",
+  "terms",
+  "support-us",
+];
+
+const getInitialPage = (): ActivePage => {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const p = params.get("page") as ActivePage;
+    if (p && VALID_PAGES.includes(p)) return p;
+  } catch {
+    // fallback
+  }
+  return "landing";
+};
 
 export default function App() {
   // Resumes list state
@@ -44,11 +72,18 @@ export default function App() {
     return sampleResumeData.id;
   });
 
-  // Active Navigation Page
-  const [activePage, setActivePage] = useState<ActivePage>("landing");
+  // Active Navigation Page (synced with URL query)
+  const [activePage, setActivePage] = useState<ActivePage>(getInitialPage);
 
   // Download Modal State
-  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState<boolean>(false);
+  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState<boolean>(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("action") === "download";
+    } catch {
+      return false;
+    }
+  });
   const [resumeToDownload, setResumeToDownload] = useState<ResumeData | null>(null);
 
   // Template Preview Modal State
@@ -61,6 +96,44 @@ export default function App() {
   useEffect(() => {
     document.documentElement.classList.remove("dark");
   }, []);
+
+  // Listen for browser back / forward navigation
+  // When user hits browser "Back" from the ad or previous page, target page is restored
+  useEffect(() => {
+    const handlePopState = (e: PopStateEvent) => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const page = (e.state?.page || params.get("page")) as ActivePage;
+        if (page && VALID_PAGES.includes(page)) {
+          setActivePage(page);
+        } else {
+          setActivePage("landing");
+        }
+        if (params.get("action") === "download" || e.state?.action === "download") {
+          setIsDownloadModalOpen(true);
+        } else {
+          setIsDownloadModalOpen(false);
+        }
+      } catch (err) {
+        console.error("Popstate handling error:", err);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  // Central ad navigation handler: opens smart ad, saves history state, and opens target page when going back
+  const handleNavigateWithAd = useCallback(
+    (targetPage: ActivePage, targetAction?: string, extraUpdate?: () => void) => {
+      triggerSmartLinkOnButtonClick(targetPage, targetAction, () => {
+        setActivePage(targetPage);
+        if (extraUpdate) extraUpdate();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    },
+    []
+  );
 
   // Persist Resumes to LocalStorage
   useEffect(() => {
@@ -143,8 +216,9 @@ export default function App() {
 
     setResumes((prev) => [newResume, ...prev]);
     setActiveResumeId(newId);
-    setActivePage("builder");
-    showToast("✓ Created new blank resume draft");
+    handleNavigateWithAd("builder", undefined, () => {
+      showToast("✓ Created new blank resume draft");
+    });
   };
 
   // Duplicate Resume
@@ -186,15 +260,18 @@ export default function App() {
         primaryColor: TEMPLATES.find((t) => t.id === templateId)?.primaryColor || prev.customization.primaryColor,
       },
     }));
-    setActivePage("builder");
     setPreviewTemplate(null);
-    showToast(`Switched to "${TEMPLATES.find((t) => t.id === templateId)?.name}" template`);
+    handleNavigateWithAd("builder", undefined, () => {
+      showToast(`Switched to "${TEMPLATES.find((t) => t.id === templateId)?.name}" template`);
+    });
   };
 
   // Trigger download modal for a specific or current resume
   const handleOpenDownload = (targetResume?: ResumeData) => {
     setResumeToDownload(targetResume || currentResume);
-    setIsDownloadModalOpen(true);
+    handleNavigateWithAd("builder", "download", () => {
+      setIsDownloadModalOpen(true);
+    });
   };
 
   return (
@@ -202,27 +279,18 @@ export default function App() {
       {/* Global Navbar */}
       <Navbar
         activePage={activePage}
-        onNavigate={(p) => {
-          setActivePage(p);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-        onStartResume={() => {
-          setActivePage("builder");
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
+        onNavigate={(p) => handleNavigateWithAd(p)}
+        onStartResume={() => handleNavigateWithAd("builder")}
       />
 
       {/* Main Content Area */}
       <main className="flex-1">
         {activePage === "landing" && (
           <LandingPage
-            onNavigate={(p) => {
-              setActivePage(p);
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
+            onNavigate={(p) => handleNavigateWithAd(p)}
             onSelectTemplate={handleSelectTemplate}
             onPreviewTemplate={(tpl) => setPreviewTemplate(tpl)}
-            onStartBuilder={() => setActivePage("builder")}
+            onStartBuilder={() => handleNavigateWithAd("builder")}
             onToast={showToast}
           />
         )}
@@ -250,7 +318,7 @@ export default function App() {
             activeResumeId={activeResumeId}
             onSelectResume={(id) => {
               setActiveResumeId(id);
-              setActivePage("builder");
+              handleNavigateWithAd("builder");
             }}
             onDeleteResume={handleDeleteResume}
             onDuplicateResume={handleDuplicateResume}
@@ -264,7 +332,7 @@ export default function App() {
             resume={currentResume}
             onChange={handleUpdateResume}
             onToast={showToast}
-            onNavigateToBuilder={() => setActivePage("builder")}
+            onNavigateToBuilder={() => handleNavigateWithAd("builder")}
           />
         )}
 
@@ -301,12 +369,7 @@ export default function App() {
       </main>
 
       {/* Global Footer */}
-      <Footer
-        onNavigate={(p) => {
-          setActivePage(p);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-      />
+      <Footer onNavigate={(p) => handleNavigateWithAd(p)} />
 
       {/* Download Modal (Donate vs Free Sponsor Ad Flow) */}
       <DownloadModal
@@ -314,6 +377,13 @@ export default function App() {
         onClose={() => {
           setIsDownloadModalOpen(false);
           setResumeToDownload(null);
+          try {
+            const url = new URL(window.location.href);
+            url.searchParams.delete("action");
+            window.history.replaceState({ page: activePage }, "", url.toString());
+          } catch {
+            // fallback
+          }
         }}
         resume={resumeToDownload || currentResume}
         onToast={showToast}

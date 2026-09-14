@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { SponsorAdConfig } from "../types";
 import { ExternalLink, AlertCircle } from "lucide-react";
+import { SMART_LINK_URL } from "../config/ads";
 
 export const defaultSponsorAdConfig: SponsorAdConfig = {
   enabled: true,
   durationSeconds: 5,
   skipDelaySeconds: 2,
-  sponsorName: "CareerPath Pro",
-  title: "Ace Your Next Interview with AI Mock Interviews",
-  tagLine: "Get real-time feedback on technical and behavioral answers. Start free today.",
-  callToAction: "Learn More — Free Trial",
-  sponsorUrl: "https://example.com/sponsor-careerpath",
+  sponsorName: "Verified Career Partner",
+  title: "Ace Your Job Search & Unlock Exclusive Hiring Perks",
+  tagLine: "Explore high-paying remote roles, interview resources, and verified career tools today.",
+  callToAction: "Explore Partner Deal",
+  sponsorUrl: SMART_LINK_URL,
   badgeText: "Sponsored",
   mediaType: "interactive",
 };

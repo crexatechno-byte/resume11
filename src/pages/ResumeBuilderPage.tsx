@@ -6,6 +6,8 @@ import { ResumeFormSections } from "../components/ResumeFormSections";
 import { ResumeCustomizer } from "../components/ResumeCustomizer";
 import { AtsOptimizerPanel } from "../components/AtsOptimizerPanel";
 import { sampleResumeData } from "../data/sampleResume";
+import { AdBanner160x300 } from "../components/AdBanner160x300";
+import { SMART_LINK_URL } from "../config/ads";
 import {
   User,
   FileText,
@@ -31,6 +33,8 @@ import {
   CheckCircle2,
   Save,
   Share2,
+  Sparkles,
+  ExternalLink,
 } from "lucide-react";
 
 interface ResumeBuilderPageProps {
@@ -278,6 +282,19 @@ export const ResumeBuilderPage: React.FC<ResumeBuilderPageProps> = ({
             <Trash2 className="w-4 h-4" />
           </button>
 
+          <a
+            href={SMART_LINK_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            id="builder-smart-link-btn"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold text-amber-900 bg-linear-to-r from-amber-200 to-orange-200 hover:from-amber-300 hover:to-orange-300 border border-amber-300 transition-all shadow-2xs group"
+            title="Exclusive Partner Job Deals & Fast-Track Hiring"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-800 animate-pulse" />
+            <span>Partner Deals</span>
+            <ExternalLink className="w-3 h-3 text-amber-800 group-hover:translate-x-0.5 transition-transform" />
+          </a>
+
           <button
             id="builder-download-resume-btn"
             onClick={onOpenDownload}
@@ -369,6 +386,11 @@ export const ResumeBuilderPage: React.FC<ResumeBuilderPageProps> = ({
                 })}
               </div>
             )}
+          </div>
+
+          {/* Sponsored 160x300 Ad Banner */}
+          <div className="pt-2 flex justify-center">
+            <AdBanner160x300 />
           </div>
         </div>
 

@@ -12,7 +12,9 @@ import {
   Menu,
   X,
   ChevronDown,
+  ExternalLink,
 } from "lucide-react";
+import { SMART_LINK_URL } from "../config/ads";
 
 interface NavbarProps {
   activePage: ActivePage;
@@ -155,8 +157,24 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </nav>
 
-        {/* Right: Create Resume CTA */}
-        <div className="flex items-center gap-3">
+        {/* Right: Create Resume CTA + Smart Link Sponsor Button */}
+        <div className="flex items-center gap-2.5">
+          <a
+            href={SMART_LINK_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            id="nav-smart-link-btn"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-amber-900 bg-linear-to-r from-amber-100 to-orange-100 hover:from-amber-200 hover:to-orange-200 border border-amber-300 transition-all shadow-2xs group"
+            title="Explore Exclusive Partner Perks and Career Deals"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+            </span>
+            <span className="font-semibold">Special Offers</span>
+            <ExternalLink className="w-3 h-3 text-amber-700 group-hover:translate-x-0.5 transition-transform" />
+          </a>
+
           <button
             id="nav-create-resume-cta"
             onClick={onStartResume}
@@ -242,6 +260,19 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Heart className="w-4 h-4 fill-rose-500" />
             <span>Support Us (₹50)</span>
           </button>
+
+          <a
+            href={SMART_LINK_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full px-3 py-2.5 rounded-lg text-xs font-bold text-amber-900 bg-amber-50 border border-amber-200 flex items-center justify-between hover:bg-amber-100 transition-colors"
+          >
+            <span className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-amber-600" />
+              <span>Special Offers & Partner Deals</span>
+            </span>
+            <ExternalLink className="w-3.5 h-3.5 text-amber-700" />
+          </a>
 
           <div className="pt-2">
             <button

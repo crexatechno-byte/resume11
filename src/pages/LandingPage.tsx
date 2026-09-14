@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { ActivePage, TemplateDefinition } from "../types";
 import { TEMPLATES } from "../data/templates";
 import { TemplateThumbnail } from "../components/TemplateThumbnail";
+import { AdBanner160x300 } from "../components/AdBanner160x300";
+import { SMART_LINK_URL } from "../config/ads";
 import {
   Sparkles,
   ArrowRight,
@@ -18,6 +20,7 @@ import {
   Eye,
   Sliders,
   FileText,
+  ExternalLink,
 } from "lucide-react";
 
 interface LandingPageProps {
@@ -129,6 +132,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               >
                 <span>Explore Templates</span>
               </button>
+
+              <a
+                href={SMART_LINK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                id="hero-smart-link-btn"
+                className="w-full sm:w-auto px-4 py-3 rounded-lg text-sm font-semibold text-amber-950 bg-linear-to-r from-amber-200 via-amber-300 to-orange-300 hover:from-amber-300 hover:to-orange-400 border border-amber-300/80 transition-all flex items-center justify-center gap-2 shadow-2xs"
+              >
+                <Sparkles className="w-4 h-4 text-amber-800 animate-pulse" />
+                <span>Special Offers</span>
+                <ExternalLink className="w-3.5 h-3.5 text-amber-800" />
+              </a>
             </div>
 
             {/* Trust indicators icon row */}
@@ -570,7 +585,37 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
-      {/* 9. SUPPORT US SECTION (replaces Pricing) */}
+      {/* 9. SPONSOR & PARTNER OFFERS SECTION */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="p-6 sm:p-8 rounded-xl border border-amber-200 bg-linear-to-b from-amber-50/40 via-white to-white text-center space-y-4 shadow-2xs">
+          <div className="flex items-center justify-center gap-1.5 text-xs font-bold text-amber-700 uppercase tracking-wider">
+            <Sparkles className="w-4 h-4 text-amber-600" />
+            <span>Sponsored Career Deals & Partner Network</span>
+          </div>
+
+          <p className="text-xs sm:text-sm text-gray-600 max-w-lg mx-auto">
+            Discover verified career acceleration offers, hiring tools, and remote opportunities provided by our global partners.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <AdBanner160x300 />
+          </div>
+
+          <div className="pt-2">
+            <a
+              href={SMART_LINK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold text-amber-900 bg-amber-200 hover:bg-amber-300 border border-amber-300 transition-colors shadow-2xs"
+            >
+              <span>Explore Partner Offers</span>
+              <ExternalLink className="w-3.5 h-3.5 text-amber-800" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* 10. SUPPORT US SECTION (replaces Pricing) */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="p-8 sm:p-10 rounded-xl border border-gray-200 bg-white text-center space-y-5 shadow-sm">
           <div className="w-10 h-10 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center mx-auto">

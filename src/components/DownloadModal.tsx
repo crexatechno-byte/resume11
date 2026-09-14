@@ -4,6 +4,8 @@ import { SponsorAdSlot, defaultSponsorAdConfig } from "./SponsorAdSlot";
 import { downloadResumePDF, printResume } from "../utils/exportPdf";
 import { ResumePreview } from "./ResumePreview";
 import { UpiPaymentFlow } from "./UpiPaymentFlow";
+import { AdBanner160x300 } from "./AdBanner160x300";
+import { SMART_LINK_URL, openSmartLink } from "../config/ads";
 import {
   X,
   Heart,
@@ -12,6 +14,8 @@ import {
   Printer,
   FileCheck,
   Smartphone,
+  Sparkles,
+  ExternalLink,
 } from "lucide-react";
 
 interface DownloadModalProps {
@@ -78,6 +82,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
   }, [triggerDownload]);
 
   const handleStartFreeDownload = () => {
+    openSmartLink();
     if (!sponsorConfig.enabled) {
       triggerDownload(false);
     } else {
@@ -136,6 +141,34 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
         {/* Options Stage */}
         {stage === "options" && (
           <div className="space-y-4">
+            {/* Smart Link Sponsor Fast Download */}
+            <a
+              href={SMART_LINK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              id="download-modal-smart-link"
+              onClick={() => {
+                setTimeout(() => {
+                  triggerDownload(false);
+                }, 600);
+              }}
+              className="w-full py-3 px-4 rounded-xl text-xs font-bold text-white bg-linear-to-r from-amber-500 via-orange-500 to-rose-600 hover:from-amber-600 hover:to-rose-700 transition-all flex items-center justify-between shadow-xs cursor-pointer group"
+            >
+              <div className="flex items-center gap-2.5">
+                <Sparkles className="w-4 h-4 text-amber-200 animate-pulse shrink-0" />
+                <div className="text-left">
+                  <div className="font-bold text-sm leading-tight flex items-center gap-1.5">
+                    <span>⚡ Instant Download & Partner Perks</span>
+                    <span className="text-[10px] bg-amber-400/30 text-amber-100 border border-amber-300/40 px-1.5 py-0.2 rounded">Sponsored</span>
+                  </div>
+                  <div className="text-[11px] text-amber-100 font-normal">
+                    Click to unlock instant direct PDF & explore verified job deals
+                  </div>
+                </div>
+              </div>
+              <ExternalLink className="w-4 h-4 text-amber-200 group-hover:translate-x-0.5 transition-transform shrink-0 ml-2" />
+            </a>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Card 1: Support via QR / UPI */}
               <div
@@ -192,8 +225,13 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
               </div>
             </div>
 
+            {/* Banner Ad Display */}
+            <div className="pt-2 flex flex-col items-center justify-center">
+              <AdBanner160x300 />
+            </div>
+
             {/* Quick Browser Print Option */}
-            <div className="pt-2 flex justify-center">
+            <div className="pt-1 flex justify-center">
               <button
                 type="button"
                 onClick={() => {
@@ -221,11 +259,14 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
 
         {/* Stage: Sponsor Ad */}
         {stage === "sponsor-ad" && (
-          <div className="space-y-3">
+          <div className="space-y-4">
             <SponsorAdSlot
               config={sponsorConfig}
               onAdComplete={handleAdComplete}
             />
+            <div className="flex justify-center pt-2">
+              <AdBanner160x300 />
+            </div>
           </div>
         )}
 

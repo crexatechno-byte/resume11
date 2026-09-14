@@ -329,6 +329,20 @@ app.get(/^\/google([a-zA-Z0-9_-]+)\.html$/, (req, res) => {
   res.status(200).send(`google-site-verification: google${code}.html`);
 });
 
+// Sitemap.xml route for Googlebot / Search Engines
+app.get("/sitemap.xml", (_req, res) => {
+  const sitemapPath = path.join(process.cwd(), "public", "sitemap.xml");
+  res.setHeader("Content-Type", "application/xml; charset=utf-8");
+  res.sendFile(sitemapPath);
+});
+
+// Robots.txt route
+app.get("/robots.txt", (_req, res) => {
+  const robotsPath = path.join(process.cwd(), "public", "robots.txt");
+  res.setHeader("Content-Type", "text/plain; charset=utf-8");
+  res.sendFile(robotsPath);
+});
+
 // Vite middleware setup
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
